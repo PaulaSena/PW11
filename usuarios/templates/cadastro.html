@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block 'head' %}
-<link rel="stylesheet" href="{% static "usuarios/css/usuarios.css" %}">
+<link rel="stylesheet" href="{% static 'usuarios/css/usuarios.css' %}">
 {% endblock 'head' %}
 
 {% block 'body' %}
@@ -24,7 +24,7 @@
                     <br>
                     <label>Confirmar senha</label>
                     <input type="password" class="form-control input-pers" name="confirmar_senha" placeholder="Confirme sua senha">
-                    <!-- VALIDACOES -->   
+                    <!-- VALIDACOES settings-->   
                     {% if messages %}
                         <br>
                             {% for message in messages %}
@@ -37,8 +37,8 @@
                     <div class="centralizar">
                         <input type="submit" class="btn btn-indigo" value="Cadastrar">
                         <br>
-                        <br>
-                        <a href="#" class="texto">Já possuo uma conta</a>
+                        
+                        <a href="{% url "login" %}" class="texto">Já possuo uma conta</a>
                     </div>
                 </form>
             </div>

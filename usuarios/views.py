@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.messages import constants
+from django.contrib import auth
+
 # Create your views here.
 
 
@@ -35,7 +37,7 @@ def cadastro(request):
         messages.add_message(request, constants.ERROR, 'Já existe usuário com esse username.')
         return redirect('/usuarios/cadastro')
   
-# criando uma classe usuario para criar um novo usuario
+# Criando uma classe usuario para criar um novo usuario
     user = User.objects.create_user(username=username, password=senha)
     messages.add_message(request, constants.SUCCESS, 'Usuário cadastrado com sucesso!')
     return redirect('/usuarios/login')
@@ -43,5 +45,15 @@ def cadastro(request):
     return HttpResponse(f'{username} - {senha} - {confirmar_senha}')
 
 def login(request):
-    messages.add_message(request, constants.SUCCESS, 'Usuário cadastrado com sucesso!')
-    return render(request, 'login.html')
+    if request.method == "GET":
+        return render(request, 'login.html')
+    elif request.method == "POST":
+        username = request.POST.get("username")
+        senha = request.POST.get("senha")
+# Autenticar usuario import auth
+        user = auth.authenticate(request, username=username, password=senha)
+        if user:
+            auth.login(request,user)
+            return redirect('/empresarios/cadastrar_empresa')
+        messages.add_message(request, constants.ERROR,"Usuário ou senha invalidos")
+        return redirect("/usuarios/login")
