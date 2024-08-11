@@ -40,9 +40,12 @@ def cadastro(request):
 # Criando uma classe usuario para criar um novo usuario
     user = User.objects.create_user(username=username, password=senha)
     messages.add_message(request, constants.SUCCESS, 'Usuário cadastrado com sucesso!')
-    return redirect('/usuarios/login')
-          
+    return redirect('/usuarios/cadastro')
+
     return HttpResponse(f'{username} - {senha} - {confirmar_senha}')
+
+   # if messages==SUCCESS:
+     #   return redirect('/usuarios/login')
 
 def login(request):
     if request.method == "GET":

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% block 'head' %}
+
+    <link rel="stylesheet" href="{% static 'usuarios/css/usuarios.css' %}">
+
+{% endblock 'head' %}
+
+{% block 'body' %}
+    <div class="container">
+        <br>
+
+        {% if messages %}
+            {% for message in messages %}
+                <section class="alert {{message.tags}}">
+                    {{message}}
+                </section>
+            {% endfor %}
+        {% endif %}
+        
+        <div class="row">
+            <div class="col-12">
+                <form action="{% url 'cadastrar_empresa' %}" method="POST" enctype='multipart/form-data'>
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-6">
+                            <label>Nome</label>
+                            <input type="text" name="nome" placeholder="Digite o nome da sua empresa ..." class="form-control" required value="{{ form_data.nome }}">
+                            <br>
+                            <label>CNPJ</label>
+                            <input type="text" name="cnpj" placeholder="Digite o seu CNPJ ..." class="form-control" value="{{ form_data.cnpj }}">
+                            <br>
+                            <label>Site / Redes Social</label>
+                            <input type="text" name="site" placeholder="Digite o seu site ..." class="form-control" required value="{{ form_data.site }}">
+                            <br>
+                            <label>A quanto tempo a startup existe?</label>
+                            <select name="tempo_existencia" class="form-select" required>
+                                {% for i in tempo_existencia %}
+                                    <option value="{{ i.0 }}" {% if form_data.tempo_existencia == i.0 %}selected{% endif %}>{{ i.1 }}</option>
+                                {% endfor %}
+                            </select>
+                            <br>
+                            <label>Descreva a sua empresa</label>
+                            <textarea name="descricao" class="form-control" required>{{ form_data.descricao }}</textarea>
+                            <br>
+                            <label>Data final para captação</label>
+                            <input type="date" name="data_final" class="form-control" required value="{{ form_data.data_final }}">
+                            <br>
+                            <label>Qual a porcentagem (%) de equity oferecida em contrapartida ao valor investido?</label>
+                            <input type="number" name="percentual_equity" class="form-control" required value="{{ form_data.percentual_equity }}">
+                        </div>
+                        <div class="col-6">
+                            <br>
+                            <label>Qual o estágio da empresa?</label>
+                            <br><br>
+                            <input type="checkbox" name="estagio" value="I" {% if 'I' in form_data.estagio %}checked{% endif %}><span>&nbsp;&nbsp; Tenho apenas uma ideia</span>
+                            <br>
+                            <input type="checkbox" name="estagio" value="MVP" {% if 'MVP' in form_data.estagio %}checked{% endif %}><span>&nbsp;&nbsp; Possuo um MVP</span>
+                            <br>
+                            <input type="checkbox" name="estagio" value="MVPP" {% if 'MVPP' in form_data.estagio %}checked{% endif %}><span>&nbsp;&nbsp; Possuo um MVP com clientes pagantes</span>
+                            <br>
+                            <input type="checkbox" name="estagio" value="E" {% if 'E' in form_data.estagio %}checked{% endif %}><span>&nbsp;&nbsp; Empresa pronta para escalar</span>
+                            <br><br>
+                            <label>Qual área sua startup está inserida?</label>
+                            <select name="area" class="form-select" required>
+                                {% for i in area %}
+                                    <option value="{{ i.0 }}" {% if form_data.area == i.0 %}selected{% endif %}>{{ i.1 }}</option>
+                                {% endfor %}
+                            </select>
+                            <br>
+                            <label>Qual seu público alvo</label>
+                            <select name="publico_alvo" class="form-select" required>
+                                <option value="BTC" {% if form_data.publico_alvo == "BTC" %}selected{% endif %}>BTC</option>
+                                <option value="B2B" {% if form_data.publico_alvo == "B2B" %}selected{% endif %}>B2B</option>
+                            </select>
+                            <br>
+                            <label>Qual valor deseja captar?</label>
+                            <!--                            <input type="number" name="valor" class="form-control" required value="{{ form_data.valor }}">
+-->
+                            <input type="number" name="valor" class="form-control" required value="{{ form_data.valor}}">
+                            <br>
+                            <label>Envie o pitch de apresentação</label>
+                            <input type="file" name="pitch" class="form-control">
+                            <br>
+                            <label>Envie a logo da empresa</label>
+                            <input type="file" name="logo" class="form-control">
+                        </div>
+                        <br>
+                        <input type="submit" class="btn btn-lg btn-indigo" value="cadastrar">
+                        <br>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock 'body' %}

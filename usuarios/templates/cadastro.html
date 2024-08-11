@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block 'head' %}
-<link rel="stylesheet" href="{% static 'usuarios/css/usuarios.css' %}">
+<link rel='stylesheet' href="{% static 'usuarios/css/usuarios.css' %}"> 
 {% endblock 'head' %}
 
 {% block 'body' %}
@@ -17,13 +17,13 @@
                 <br>
                 <form action="{% url "cadastro" %}" method ="POST">{% csrf_token %} 
                     <label>Username</label>
-                    <input type="text" class="form-control input-pers" name="username" placeholder="Digite seu username">
+                    <input type="text" class="form-control input-pers" name="username" placeholder="Digite seu username" required>
                     <br>
                     <label>Senha</label>
-                    <input type="password" class="form-control input-pers" name="senha" placeholder="Digite sua senha">
+                    <input type="password" class="form-control input-pers" name="senha" placeholder="Digite sua senha" required>
                     <br>
                     <label>Confirmar senha</label>
-                    <input type="password" class="form-control input-pers" name="confirmar_senha" placeholder="Confirme sua senha">
+                    <input type="password" class="form-control input-pers" name="confirmar_senha" placeholder="Confirme sua senha" required>
                     <!-- VALIDACOES settings-->   
                     {% if messages %}
                         <br>
@@ -32,7 +32,7 @@
                                     {{message}}
                                 </section>
                             {% endfor %}
-                        {% endif %}
+                    {% endif %}
                                          
                     <div class="centralizar">
                         <input type="submit" class="btn btn-indigo" value="Cadastrar">
