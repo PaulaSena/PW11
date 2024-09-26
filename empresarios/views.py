@@ -116,7 +116,7 @@ def cadastrar_empresa(request):
                 pitch=pitch,
                 logo=logo
             )
-            empresa.full_clean()
+        #    empresa.full_clean()
 
             empresa.save()
             # Limpa os dados do cache após salvar
