@@ -5,6 +5,7 @@ from django.contrib.messages import constants
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.cache import cache
+from django.contrib.auth.models import User
 
 # Create your views here.def cadastrar_empresa(request):
 
@@ -53,10 +54,17 @@ def cadastrar_empresa(request):
         if not nome:
             messages.add_message(request, constants.ERROR, 'O campo Nome é obrigatório.')
             return redirect('/empresarios/cadastrar_empresa')
+# Criando um filtro para validar se CNPJ e Empresa já foi cadastrado pelo Usuario no banco
+        if not nome: 
+            users = User.objects.filter(nome=nome,cnpj=cnpj)
+            if users.exists():
+                messages.add_message(request, constants.ERROR, 'Essa empresa já esta cadastrada!')
+                return redirect('/usuarios/login')
 
-        if not cnpj or len(cnpj) != 14:
+        elif not cnpj or len(cnpj) != 14:
             messages.add_message(request, constants.ERROR, 'CNPJ inválido. O CNPJ deve conter 14 dígitos.')
             return redirect('/empresarios/cadastrar_empresa')
+
 
         if not site or not site.startswith('http'):
             messages.add_message(request, constants.ERROR, 'URL do site inválida. Deve começar com http:// ou https://.')
@@ -99,7 +107,7 @@ def cadastrar_empresa(request):
             messages.add_message(request, constants.ERROR, 'O arquivo de logo deve ter no máximo 5MB ex: jpeg, png.')
             return redirect('/empresarios/cadastrar_empresa')
 
-        try:
+        try: # tentar salvar no banco de dados  
             empresa = Empresas(
                 user=request.user,
                 nome=nome,
@@ -122,7 +130,7 @@ def cadastrar_empresa(request):
             # Limpa os dados do cache após salvar
             cache.delete(cache_key)
         except:
-            messages.add_message(request, constants.ERROR, 'Erro interno do sistema')
+            messages.add_message(request, constants.ERROR, 'Erro interno do servidor')
             return redirect('/empresarios/cadastrar_empresa')
         
         messages.add_message(request, constants.SUCCESS, 'Empresa criada com sucesso')

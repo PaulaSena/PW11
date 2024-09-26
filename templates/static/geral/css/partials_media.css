@@ -1,0 +1,16 @@
+/*Dispositivos moveis*/
+
+//Dispositivos pequenos (telefones em paisagem, 576px e superiores)
+@media (min-width: 576px) { ... }
+
+// Dispositivos médios (tablets, 768px e superiores)
+@media (min-width: 768px) { ... }
+
+// Dispositivos grandes (desktops, 992px e superiores)
+@media (min-width: 992px) { ... }
+
+// Dispositivos X-Large (desktops grandes, 1200px e superiores)
+@media (min-width: 1200px) { ... }
+
+// Dispositivos XX-Large (desktops maiores, 1400px e superiores)
+@media (min-width: 1400px) { ... }
