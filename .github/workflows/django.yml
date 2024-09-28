@@ -1,4 +1,4 @@
-name: Django CI
+name: CI Pipeline for Django and Node.js
 
 on:
   push:
@@ -7,24 +7,28 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
+  build-django:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 4
       matrix:
-        python-version: [3.7, 3.8, 3.9]
-
+        python-version: [3.7, 3.8, 3.9]  # Testando em múltiplas versões de Python
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Run Tests
-      run: |
-        python manage.py test
+      # Step 1: Fazer checkout do repositório
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Configurar o ambiente Python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Step 3: Instalar dependências do Python
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Certifique-se de que o arquivo está na raiz do projeto
+
+      # Step 4: Executar testes do Django
+      - name: Run Django tests
+        run: python manage.py test

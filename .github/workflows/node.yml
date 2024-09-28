@@ -1,0 +1,30 @@
+name: CI Pipeline for Node.js
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-node:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Fazer checkout do repositório
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Instalar o Node.js (especificar a versão desejada)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Especifica a versão do Node.js
+
+      # Step 3: Instalar dependências do Node.js
+      - name: Install Node.js dependencies
+        run: npm install
+
+      # Step 4: Executar testes do Node.js
+      - name: Run Node.js tests
+        run: npm test  # Ajuste conforme o framework de testes utilizado
